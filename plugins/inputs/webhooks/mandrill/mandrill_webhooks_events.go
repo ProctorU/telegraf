@@ -6,9 +6,14 @@ type Event interface {
 }
 
 type MandrillEvent struct {
-	EventName string `json:"event"`
-	TimeStamp int64  `json:"ts"`
-	Id        string `json:"_id"`
+	EventName string  `json:"event"`
+	TimeStamp int64   `json:"ts"`
+	Id        string  `json:"_id"`
+	Msg       Message `json:"msg"`
+}
+
+type Message struct {
+	Email string `json:"email"`
 }
 
 func (me *MandrillEvent) Tags() map[string]string {
@@ -19,6 +24,7 @@ func (me *MandrillEvent) Tags() map[string]string {
 
 func (me *MandrillEvent) Fields() map[string]interface{} {
 	return map[string]interface{}{
-		"id": me.Id,
+		"id":    me.Id,
+		"email": me.Msg.Email,
 	}
 }
